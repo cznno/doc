@@ -18,8 +18,7 @@ class Foo{
         Connection connection = null;
         
         try {
-            connection = manager.getDataSource().getConnection();
-        
+            connection = manager.getDataSource().getConnection();        
             connection.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
