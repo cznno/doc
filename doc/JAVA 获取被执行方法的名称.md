@@ -49,3 +49,6 @@ public void givenCurrentThread_whenGetStackTrace_thenFindMethod() {
 }
 ```
 
+## Ref
+
+http://www.baeldung.com/java-name-of-executing-method
