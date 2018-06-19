@@ -126,6 +126,24 @@ http{
 
 - 反代地址(proxy_pass)和upstream的配置 (注意对应关系)
 
+#### 部署的时候发生的问题
+
+- 配置了`listen 80;`外部无法访问
+
+  加上外部ip `listen 192.168.1.111:80`这样就可以
+
+  疑问:80不是应该监听所有ip吗?
+
+- 静态文件无法访问
+
+  在nginx中配置了`user root;`, 同时修改/www目录的权限为 777 root:root. 但仍然没有权限
+
+  原因是**SELinux**限制了访问, 配置一下
+
+  ```shell
+  chcon -Rt httpd_sys_content_t /path/to/www
+  ```
+
 ####ref
 
 - http://www.ttlsa.com/nginx/use-nginx-proxy/
