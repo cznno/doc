@@ -6,6 +6,7 @@
 - [x] [nginx做负载均衡](#nginx)
 - [x] [业务缓存](#缓存)
 - [ ] [分布式日志](#分布式日志)
+- [x] [Nginx配置SSL](#Nginx配置SSL)
 
 ###FUCK
 
@@ -100,9 +101,9 @@ ref: [Spring Session + Redis实现分布式Session共享](https://blog.csdn.net/
 
 配置`/etc/nginx/nginx.conf`
 
-```
+```nginx
 http{
-    // misc...
+    # misc...
     upstream app{
 		server      127.0.0.1:8080;
 		server      127.0.0.1:8081;
@@ -115,7 +116,7 @@ http{
 			index  index.html index.htm;
             proxy_pass http://app/;
 		}
-		// misc...
+		# misc...
     }
 }
 ```
@@ -143,6 +144,60 @@ http{
   ```shell
   chcon -Rt httpd_sys_content_t /path/to/www
   ```
+
+  ref: https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files
+
+- 经过代理的服务接收不到正确的请求ip
+
+  发现`ServletRequest.getRemoteAddr()`拿到的是127.0.0.1
+
+  - 配置nginx
+
+    ```nginx
+    location / {
+        #...
+        proxy_redirect     off;
+        proxy_set_header   Host             $host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        #...
+    }
+    ```
+
+  - 配置tomcat
+
+    ```xml
+    <Engine defaultHost="localhost" name="Catalina">
+    	...
+    	<Valve className="org.apache.catalina.valves.RemoteIpValve"
+                   remoteIpHeader="X-Forwarded-For"
+                   requestAttributesEnabled="true"
+                   internalProxies="127\.0\.0\.1"  />
+    </Engine>
+    ```
+
+  - 或者也可以通过
+
+    `HttpServletRequest.getHeader("X-Real-IP")`获得
+
+  - ref
+
+    - https://medium.com/@apuravchauhan/securing-tomcat-running-behind-nginx-as-reverse-proxy-load-balancer-c2a313602669
+    - https://blog.csdn.net/saindy5828/article/details/51375588
+    - http://blog.51cto.com/lee90/1768284
+    - https://serverfault.com/questions/514551/make-tomcat-use-x-real-ip/692604
+    - https://stackoverflow.com/questions/42661710/remote-ip-in-tomcat-webapp-running-behind-nginx-proxy
+    - https://www.cnblogs.com/qvennnnn/p/6245676.html
+
+- 监听不了端口
+
+  SELinux的问题
+
+  ```shell
+  semanage port -a -t http_port_t  -p tcp 8090
+  ```
+
+  ref: https://serverfault.com/questions/566317/nginx-no-permission-to-bind-port-8090-but-it-binds-to-80-and-8080
 
 ####ref
 
@@ -218,15 +273,69 @@ http{
 
 - spring-data-redis的1.x.x和2.0.0+版本delete的实现有什么区别
 
-
 ### 分布式日志
 
-#### How
+方便起见log暂时输出到一个路径, 用特殊的标识区分实例
+
+#### ~~How~~
 
 - 不用docker: 每个实例的日志要么混在一起, 要么需要修改每个实例的配置文件
 
 - 用docker需要解决的问题:
 
-  - 所有日志输出到控制台,写入
+  - 所有日志输出到控制台,写入kafka
 
-  
+  // TODO
+
+###Nginx配置SSL
+
+#### 证书
+
+- 把domain.key和domain.crt放到/etc/pki/nginx/下(路径无所谓)
+
+- 读取证书启动错误
+
+  ```
+  BIO_new_file("/etc/pki/nginx/domain.crt") failed (SSL: error:0200100D:system library:fopen:Permission denied:
+  fopen('/etc/pki/nginx/domain.crt','r') error:2006D002:BIO routines
+  :BIO_new_file:system lib)
+  ```
+
+  可能是SELinux的原因 // TODO
+
+  运行`restorecon -v -R /etc/pki/nginx`
+
+  ref: https://serverfault.com/questions/540537/nginx-permission-denied-to-certificate-files-for-ssl-configuration
+
+- nginx配置
+
+```nginx
+server{
+    listen       80 default_server ;
+    listen       443 default_server ssl;
+    server_name domain;
+    
+    #ssl on; 共存的话就不开这个
+    ssl_certificate /etc/pki/nginx/domain.crt;
+    ssl_certificate_key /etc/pki/nginx/domain.key;
+    ssl_session_timeout 10m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+    ssl_prefer_server_ciphers on;  
+    #...
+}
+# or redirect
+server {
+    listen    80;	
+    server_name domain.com;
+    return    301 https://$server_name$request_uri;
+}
+```
+
+
+
+ref:
+
+- https://serverfault.com/questions/10854/nginx-https-serving-with-same-config-as-http
+- https://www.cnblogs.com/phpper/p/6441475.html
+
