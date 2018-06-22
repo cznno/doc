@@ -199,6 +199,22 @@ http{
 
   ref: https://serverfault.com/questions/566317/nginx-no-permission-to-bind-port-8090-but-it-binds-to-80-and-8080
 
+- 下载大文件出错
+
+  下载服务器生成的文件打开出错, 大小和正常结果相差很大
+
+  日志:
+
+  `5399 open() "/var/lib/nginx/tmp/proxy/9/02/0000000029" failed (13: Permission denied) while reading upstream`
+
+  需要修改一下文件夹的权限
+
+  [解决nginx下载大文件出现文件损坏，文件大小不一致](https://blog.csdn.net/u010257920/article/details/50563646)
+
+  [[Permission denied while reading upstream]](https://serverfault.com/questions/235154/permission-denied-while-reading-upstream)
+
+  [Nginx Proxy Stops After 38 kB](https://serverfault.com/questions/771148/nginx-proxy-stops-after-38-kb)
+
 ####ref
 
 - http://www.ttlsa.com/nginx/use-nginx-proxy/
