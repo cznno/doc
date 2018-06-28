@@ -135,6 +135,8 @@ http{
 
   疑问:80不是应该监听所有ip吗?
 
+  - default_
+
 - 静态文件无法访问
 
   在nginx中配置了`user root;`, 同时修改/www目录的权限为 777 root:root. 但仍然没有权限
