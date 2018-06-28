@@ -196,3 +196,9 @@ log4j2.xml
 [Log4j2 configuration - No log4j2 configuration file found](https://stackoverflow.com/questions/25487116/log4j2-configuration-no-log4j2-configuration-file-found)
 
 [Spring MVC using Log4j Example](https://examples.javacodegeeks.com/enterprise-java/spring/mvc/spring-mvc-using-log4j-example/)
+
+[[log4j2 的几种简单配置,集成配置MongoDB](https://www.cnblogs.com/demon-kingdom/articles/4898073.html)](http://www.cnblogs.com/demon-kingdom/p/4898073.html)
+
+[玩转mongodb（九）：通过log4jmongo来实现分布式系统的日志统一管理](https://www.cnblogs.com/zhouqinxiong/p/6822260.html)
+
+[SLF4J with Log4j2 example](https://www.logicbig.com/tutorials/misc/java-logging/slf4j-with-log4j2.html)
