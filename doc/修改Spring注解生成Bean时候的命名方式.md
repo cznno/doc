@@ -33,3 +33,6 @@ org.springframework.context.annotation.AnnotationBeanNameGenerator#buildDefaultB
         return Introspector.decapitalize(shortClassName);
     }
 ```
+ref:
+
+https://stackoverflow.com/questions/39818728/how-do-i-prefix-each-bean-id-in-a-package-inc-sub-packages-with-a-constant-st
