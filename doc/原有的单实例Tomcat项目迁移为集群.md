@@ -8,10 +8,6 @@
 - [ ] [分布式日志](#分布式日志)
 - [x] [Nginx配置SSL](#Nginx配置SSL)
 
-###FUCK
-
-- 原有的项目不是无状态的, 需要中间件做缓存(redis应该可以满足)
-
 ## Done
 
 ### Session
@@ -174,9 +170,15 @@ http{
     	<Valve className="org.apache.catalina.valves.RemoteIpValve"
                    remoteIpHeader="X-Forwarded-For"
                    requestAttributesEnabled="true"
-                   internalProxies="127\.0\.0\.1"  />
+                   internalProxies="ip_of_nginx"  />
     </Engine>
     ```
+    | Property        | Description                                                  | Default Value          |
+    | --------------- | ------------------------------------------------------------ | ---------------------- |
+    | remoteIpHeader  | 包含remote ip的http header                                   | x-forwarded-for        |
+    | internalProxies | 内部代理ip, 用正则匹配;  If they appear in the `remoteIpHeader` value, they will be trusted and will not appear in the `proxiesHeader` value | 内网地址 192.168之类的 |
+
+    
 
   - 或者也可以通过
 
