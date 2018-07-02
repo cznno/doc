@@ -7,3 +7,5 @@
 https://www.cnblogs.com/phpper/p/6441475.html
 
 https://www.1and1.com/cloud-community/learn/web-server/nginx/solve-an-nginx-403-forbidden-error/
+
+https://stackoverflow.com/questions/2056124/nginx-client-max-body-size-has-no-effect
