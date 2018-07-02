@@ -31,3 +31,7 @@ https://www.elastic.co/guide/en/kibana/6.3/docker.html
 http://www.dahouduan.com/2016/10/17/bigdata-filebeat-elasticsearch-kibana-elk/
 
 https://zhuanlan.zhihu.com/p/26399963
+
+https://zhuanlan.zhihu.com/p/21333411
+
+https://smarttechie.org/2017/07/31/distributed-logging-architecture-for-micro-services/
