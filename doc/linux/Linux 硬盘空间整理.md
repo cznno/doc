@@ -14,5 +14,5 @@
 
 http://blog.51cto.com/2483526/798379
 
-##压缩
+## 压缩
 nice -n19 gzip debug
