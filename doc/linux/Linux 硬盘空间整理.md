@@ -13,3 +13,6 @@
 需要kill列出的进程
 
 http://blog.51cto.com/2483526/798379
+
+## 压缩
+nice -n19 gzip debug
