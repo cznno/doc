@@ -182,6 +182,137 @@
   }
   ```
 
+### List
+
+#### ArrayList
+
+##### 特性:
+
+- 可调整大小的数组实现
+- 允许所有元素，包括 `null`
+- add, get和next的复杂度是O(1)
+- remove和contains的复杂度是O(n)
+- 线程不安全
+
+##### 实现:
+
+- 内部存储其实是一个array
+
+  ```java
+  transient Object[] elementData;
+  
+  public ArrayList() {
+      this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;  //Object[], 空数组
+  }
+  
+  public ArrayList(int initialCapacity) {
+      if (initialCapacity > 0) {
+          this.elementData = new Object[initialCapacity];
+      } else if (initialCapacity == 0) {
+          this.elementData = EMPTY_ELEMENTDATA; 
+          //Object[], 空数组, 和DEFAULTCAPACITY_EMPTY_ELEMENTDATA一样
+      } else {
+          throw new IllegalArgumentException("Illegal Capacity: "+
+                                             initialCapacity);
+      }
+  }
+  ```
+
+- add
+
+  ```java
+  public boolean add(E e) {
+      modCount++;
+      add(e, elementData, size);
+      return true;
+  }
+  
+  /**
+    * This helper method split out from add(E) to keep method
+    * bytecode size under 35 (the -XX:MaxInlineSize default value),
+    * which helps when add(E) is called in a C1-compiled loop.
+    */
+  private void add(E e, Object[] elementData, int s) {
+      if (s == elementData.length)
+          elementData = grow();
+      elementData[s] = e;
+      size = s + 1;
+  }
+  
+  
+  /**
+   * Increases the capacity to ensure that it can hold at least the
+   * number of elements specified by the minimum capacity argument.
+   *
+   * @param minCapacity the desired minimum capacity
+   * @throws OutOfMemoryError if minCapacity is less than zero
+   */
+  /* 
+    扩容的时候用Arrays#copyOf把array复制了一遍, 用到了System#arraycopy,时间复杂度是O(n)
+    所以add的复杂度是O(n) 
+  */
+  private Object[] grow(int minCapacity) {
+      return elementData = Arrays.copyOf(elementData,
+                                         newCapacity(minCapacity));
+  }
+  
+  private Object[] grow() {
+      return grow(size + 1);
+  }
+  ```
+
+- get, set
+
+  ```java
+  // 基本上就是对elementData这个数组的操作
+  public E get(int index) {
+      Objects.checkIndex(index, size); // 检查index是不是在0-size内
+      return elementData(index);
+  }
+  public E set(int index, E element) {
+      Objects.checkIndex(index, size);
+      E oldValue = elementData(index);
+      elementData[index] = element;
+      return oldValue;
+  }
+  ```
+
+- remove
+
+  ```java
+  // 按值删除的话会循环查找, 只删除第一个
+  // 不论是按index还是按值删除都会调用
+  private void fastRemove(Object[] es, int i) {
+      modCount++;
+      final int newSize;
+      if ((newSize = size - 1) > i)
+          // 将index后的数组往前移一个
+          System.arraycopy(es, i + 1, es, i, newSize - i);
+      es[size = newSize] = null;
+  }
+  ```
+
+- clear
+
+  ```java
+  /* 
+    复杂度也是O(n), 为什么要循环?
+    https://stackoverflow.com/questions/3823398/
+    https://stackoverflow.com/questions/18370780/
+    经测试如果用list = new ArrayList()替换的话, 速度会快很多:见CollectTest.java
+  */
+  public void clear() {
+      modCount++;
+      final Object[] es = elementData;
+      for (int to = size, i = size = 0; i < to; i++)
+          es[i] = null;
+  }
+  ```
+
+
+
+
+
 
 
 
