@@ -57,3 +57,76 @@
 ### SortedMap
 
 - 键按照升序排列的Map
+
+## 实现
+
+源码基于jdk 10, 实现按照oracle的文档做了分类
+
+* **通用实现**是最常用的实现，专为日常使用而设计
+
+| 接口    | 哈希表实现 | 可调整大小的数组实现 | 树实现    | 链接列表实现 | 哈希表+链表实现 |
+| ------- | ---------- | -------------------- | --------- | ------------ | --------------- |
+| Set   | HashSet  |                      | TreeSet |              | LinkedHashSet |
+| List  |            | ArrayList          |           | LinkedList |                 |
+| Queue |            |                      |           |              |                 |
+| Deque |            | ArrayDeque         |           | LinkedList |                 |
+| Map   | HashMap  |                      | TreeMap |              | LinkedHashMap |
+
+- **专用实现**旨在用于特殊情况，并显示非标准性能特征，使用限制或行为。
+- **并发实现**旨在支持高并发性，通常以牺牲单线程性能为代价。这些实现是java.util.concurrent包的一部分。
+- **包装器实现**与其他类型的实现（通常是通用实现）结合使用，以提供增加或限制的功能。
+- **便利实现**是通常通过静态工厂方法提供的小型实现，为特殊集合（例如，单例集）的通用实现提供方便，有效的替代方案。
+- **抽象实现**是骨架实现，有助于构建自定义实现 （Ref [自定义集合实现](https://docs.oracle.com/javase/tutorial/collections/custom-implementations/index.html)）
+
+### Set
+
+####HashSet
+
+##### 特性:
+
+- 没有重复元素
+- 无序
+-  add, remove, contains和size的时间复杂度为O(1) 
+- 迭代速度和大小成比例
+- 线程不安全, 可以在外部使用synchronized或者使用Collections#synchronizedSet方法包装
+- 迭代器是快速失败的：如果在创建迭代器之后的任何时候修改了set，除了通过迭代器自己的`remove` 方法之外，迭代器抛出一个[`ConcurrentModificationException`](https://docs.oracle.com/javase/8/docs/api/java/util/ConcurrentModificationException.html)
+
+##### 实现:
+
+- 内部是一个HashMap 
+
+  ```java
+  private transient HashMap<E,Object> map;
+  public HashSet() {
+      map = new HashMap<>();
+  }
+  ```
+
+- 使用了一个dummy Object作为value
+
+  ```java
+  private static final Object PRESENT = new Object();
+  
+  public boolean add(E e) {
+      return map.put(e, PRESENT)==null;
+  }
+  
+  public boolean remove(Object o) {
+      return map.remove(o)==PRESENT;
+  }
+  ```
+
+- iterator, size, isEmpty, contains, add, remove等用的都是HashMap的对应方法
+
+
+
+
+
+
+
+### 参考
+
+[Big O notation for java's collections](https://gist.github.com/FedericoPonzi/8d5094dbae33cbb94536a73f62d1c1a0)
+
+[Runtime Complexity of Java Collections](https://gist.github.com/psayre23/c30a821239f4818b0709)
+
