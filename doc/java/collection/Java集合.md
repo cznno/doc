@@ -118,6 +118,70 @@
 
 - iterator, size, isEmpty, contains, add, remove等用的都是HashMap的对应方法
 
+#### LinkedHashSet
+
+#####特性:
+
+- 有序, 保持插入的顺序(重复插入不改变顺序)
+- 常用操作复杂度为O(1)
+- 线程不安全, 可以在外部使用synchronized或者使用Collections#synchronizedSet方法包装
+- 快速失败
+
+#####实现:
+
+- 内部是LinkedHashMap
+
+- 继承了HashSet, HashSet提供了构造方法
+
+  ```java
+  HashSet(int initialCapacity, float loadFactor, boolean dummy) {
+      map = new LinkedHashMap<>(initialCapacity, loadFactor);
+  }
+  
+  public LinkedHashSet() {
+      super(16, .75f, true);
+  }
+  ```
+
+#### TreeSet
+
+#####特性:
+
+- 按照元素的CompareTo方法或者在TreeSet构造函数中传入的Comparator进行排序, 没有的话会抛出java.lang.ClassCastException
+- add, remove, contains和next的复杂度是O(log n)
+- size的复杂度是O(1)
+- 线程不安全, fail fast
+
+##### 实现:
+
+- 内部是TreeMap (NavigableMap/SortedMap)
+
+  ```java
+  private transient NavigableMap<E,Object> m;
+  
+  TreeSet(NavigableMap<E,Object> m) {
+      this.m = m;
+  }
+  public TreeSet(Comparator<? super E> comparator) {
+      this(new TreeMap<>(comparator));
+  }
+  public TreeSet(SortedSet<E> s) {
+      this(s.comparator());
+      addAll(s);
+  }
+  ```
+
+- add, remove等方法也是调用的NavigableMap的对应方法
+
+  ```java
+  public boolean add(E e) {
+      return m.put(e, PRESENT)==null;
+  }
+  public boolean remove(Object o) {
+      return m.remove(o)==PRESENT;
+  }
+  ```
+
 
 
 
