@@ -309,9 +309,37 @@
   }
   ```
 
+#### LinkedList
 
+##### 特性:
 
+- 包含了双向链表
+- `add(E element)`, `Iterator.remove()`和`ListIterator.add(E element)`的复杂度是O(1) (后两个是比较重要的特性)
+- `get`和`remove`的复杂度是O(n)
+- `add(int index, E element)`复杂度为O(n), 不过index=0的时候复杂度是O(1) (可以很好地在"队列"前插入)
 
+##### 实现:
+
+- 内部是一个双向链表
+
+  ```java
+  transient Node<E> first;
+  transient Node<E> last;
+  
+  private static class Node<E> {
+      E item;
+      Node<E> next;
+      Node<E> prev;
+  
+      Node(Node<E> prev, E element, Node<E> next) {
+          this.item = element;
+          this.next = next;
+          this.prev = prev;
+      }
+  }
+  ```
+
+- add, remove主要依靠link和unlink的操作
 
 
 
