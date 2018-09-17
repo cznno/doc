@@ -341,15 +341,56 @@
 
 - add, remove主要依靠link和unlink的操作
 
+### Map
+
+#### HashMap
+
+##### 实现
+
+- 内部是链表/红黑树
+
+  ```java
+  static class Node<K,V> implements Map.Entry<K,V> {
+      final int hash;
+      final K key;
+      V value;
+      Node<K,V> next;
+  }
+  
+  static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
+      TreeNode<K,V> parent;  // red-black tree links
+      TreeNode<K,V> left;
+      TreeNode<K,V> right;
+      TreeNode<K,V> prev;    // needed to unlink next upon deletion
+      boolean red;
+  }
+  ```
+
+- hash方法
+
+  ```java
+  static final int hash(Object key) {
+      int h;
+      return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+  }
+  ```
+
+
+#### TreeMap
+
+#### LinkedHashMap
 
 
 
+##Misc
 
-
+- modCount用来判断多线程操作
 
 ### 参考
 
 [Big O notation for java's collections](https://gist.github.com/FedericoPonzi/8d5094dbae33cbb94536a73f62d1c1a0)
 
 [Runtime Complexity of Java Collections](https://gist.github.com/psayre23/c30a821239f4818b0709)
+
+[Java8系列之重新认识HashMap](http://www.importnew.com/20386.html)
 
