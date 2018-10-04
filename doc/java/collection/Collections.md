@@ -55,3 +55,28 @@ public static void swap(List<?> list, int i, int j) {
     l.set(i, l.set(j, l.get(i)));
 }
 ```
+
+### java.util.Collections#reverse
+
+```java
+// 翻转顺序，线性时间
+public static void reverse(List<?> list) {
+    int size = list.size();
+    if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
+        for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+            swap(list, i, j);
+    } else {
+        // 看上去没什么区别，为什么要用iterator？
+        // instead of using a raw type here, it's possible to capture
+        // the wildcard but it will require a call to a supplementary
+        // private method
+        ListIterator fwd = list.listIterator();
+        ListIterator rev = list.listIterator(size);
+        for (int i=0, mid=list.size()>>1; i<mid; i++) {
+            Object tmp = fwd.next();
+            fwd.set(rev.previous());
+            rev.set(tmp);
+        }
+    }
+}
+```
