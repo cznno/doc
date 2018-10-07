@@ -80,7 +80,7 @@
 
 ### Set
 
-####HashSet
+#### HashSet
 
 ##### 特性:
 
@@ -120,14 +120,14 @@
 
 #### LinkedHashSet
 
-#####特性:
+##### 特性:
 
 - 有序, 保持插入的顺序(重复插入不改变顺序)
 - 常用操作复杂度为O(1)
 - 线程不安全, 可以在外部使用synchronized或者使用Collections#synchronizedSet方法包装
 - 快速失败
 
-#####实现:
+##### 实现:
 
 - 内部是LinkedHashMap
 
@@ -145,7 +145,7 @@
 
 #### TreeSet
 
-#####特性:
+##### 特性:
 
 - 按照元素的CompareTo方法或者在TreeSet构造函数中传入的Comparator进行排序, 没有的话会抛出java.lang.ClassCastException
 - add, remove, contains和next的复杂度是O(log n)
@@ -375,14 +375,15 @@
   }
   ```
 
-
-#### TreeMap
-
 #### LinkedHashMap
 
+##### 特性
+
+`Map`接口的哈希表和链表实现，具有可预测的迭代顺序。此实现与HashMap的不同之处在于它维护了一个贯穿其所有条目的双向链表。此链接列表定义了迭代的顺序: 通常是键插入map的顺序。请注意，如果将键重新插入map，则不会影响原有的顺序。
 
 
-##Misc
+
+## Misc
 
 - modCount用来判断多线程操作
 
