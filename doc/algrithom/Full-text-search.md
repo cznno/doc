@@ -1,0 +1,1 @@
+https://issart.com/blog/full-text-search-how-it-works/
