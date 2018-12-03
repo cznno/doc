@@ -43,3 +43,20 @@ public Example selectProperties(String... properties) {
 ```
 
 If there is a illegal property name, it will throw an exception. 
+
+## We can use Example#builder in 4.0.0
+
+```java
+Example example = Example.builder(Country.class)
+    .select("countryname")
+    .where(Sqls.custom().andGreaterThan("id", 100))
+    .orderByAsc("countrycode")
+    .forUpdate()
+    .build();
+List<Country> countries = mapper.selectByExample(example);
+```
+
+Looks much better.
+
+## Is SelectByExampleMapper#selectByExample safe enough?
+
