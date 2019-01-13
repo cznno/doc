@@ -1,2 +1,5 @@
 java.lang.NoClassDefFoundError: org/codehaus/groovy/ast/MethodCallTransformation
 <groovy.version>2.5.5</groovy.version>
+
+https://github.com/spring-projects/spring-boot/issues/13444
+https://stackoverflow.com/questions/50681096/groovy-2-5-0-gives-noclassdeffounderror-for-methodcalltransformation
