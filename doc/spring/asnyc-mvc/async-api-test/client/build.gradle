@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.2.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'me.cznno'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.1.0.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
