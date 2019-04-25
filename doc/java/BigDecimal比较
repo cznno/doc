@@ -1,0 +1,2 @@
+equals会比较value and scale (2.0 != 2.00)
+用compareTo比较

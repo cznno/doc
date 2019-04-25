@@ -4,7 +4,5 @@
 
 [Spring Boot Reactive Tutorial](https://dzone.com/articles/spring-boot-reactive-tutorial)
 
-[Field injection is not recommended – Spring IOC](https://blog.marcnuri.com/field-injection-is-not-recommended/)
-
 [Enable HTTPS in Spring Boot](https://drissamri.be/blog/java/enable-https-in-spring-boot/)
 
