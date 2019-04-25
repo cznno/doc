@@ -34,7 +34,7 @@ public class Server {
 
     @GetMapping("foo/timeout")
     public List<String> timeout() throws InterruptedException {
-        Thread.sleep(1000 * 10);
+        Thread.sleep(1000 * 30);
         return jdbcTemplate.query("select * from account", rowMapper);
     }
 }
