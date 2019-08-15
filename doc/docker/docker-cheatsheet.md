@@ -19,5 +19,7 @@ org.springframework.http.MediaType
 ### 启动docker container
 
 ```bash
-docker ps -a |grep mysql|awk {'print $1'}|xargs docker start
+# bad practice:
+# docker ps -a |grep mysql|awk {'print $1'}|xargs docker start
+docker ps --format "{{.ID}}" --filter name=mysql|xargs docker start
 ```
