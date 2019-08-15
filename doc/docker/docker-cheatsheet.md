@@ -15,3 +15,9 @@ docker logs 查看日志
 #### Http的Content-Type
 
 org.springframework.http.MediaType
+
+### 启动docker container
+
+```bash
+docker ps -a |grep mysql|awk {'print $1'}|xargs docker start
+```
