@@ -8,6 +8,8 @@ https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_s
 
 https://github.com/PowerShell/Win32-OpenSSH/wiki
 
+https://www.jianshu.com/p/6e5bc39d386e
+
 ## System detail
 
 - Windows 10 professional 1803
