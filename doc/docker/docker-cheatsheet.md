@@ -26,6 +26,9 @@ docker ps --format "{{.ID}}" --filter name=mysql|xargs docker start
 ### 后台运行
 ```bash
 docker run -dit ubuntu
+#--interactive , -i		Keep STDIN open even if not attached
+#--detach , -d		Run container in background and print container ID
+#--tty , -t		Allocate a pseudo-TTY
 ```
 
 ### 接入bash  
