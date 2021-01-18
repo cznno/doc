@@ -23,6 +23,10 @@ org.springframework.http.MediaType
 # docker ps -a |grep mysql|awk {'print $1'}|xargs docker start
 docker ps --format "{{.ID}}" --filter name=mysql|xargs docker start
 ```
+### 后台运行
+```bash
+docker run -dit ubuntu
+```
 
 ### 接入bash  
 
