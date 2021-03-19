@@ -1,0 +1,9 @@
+# Java的表现力（setter组装对象）
+
+```java
+if (StringUtils.isEmpty(reviewVo.getOperator())) {
+    CaseDTO queryCaseDTO = new CaseDTO();
+    queryConn.setReportNo(reviewVo.getReportNo());  // 这里用错了
+    CaseDTO caseDTO = caseService.select(queryCaseDTO);
+}
+```
