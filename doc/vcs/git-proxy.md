@@ -10,6 +10,10 @@ git config http.proxy socks5h://host:port (dns resolved on server. haven't teste
 全局配置
 git config --global http.proxy http://host:port
 git config --global http.proxy socks5://host:port
+
+git clone example
+git clone http://domain --config "http.proxy=socks://host:port"
+
 ```
 ## ssh protocol
 ```
